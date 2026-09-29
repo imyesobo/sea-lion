@@ -1,0 +1,26 @@
+{
+  "name": "sea-lion",
+  "version": "0.1.0",
+  "description": "Shadcn-inspired web components built on top of @lion/ui and Lit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://localhost:26831/imyesobo/sea-lion"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@lion/ui": "^0.21.1",
+    "lit": "^3.3.3"
+  },
+  "devDependencies": {
+    "@open-wc/testing": "^5.0.0",
+    "@web/dev-server": "^1.0.0",
+    "@web/test-runner": "^1.0.0"
+  }
+}
