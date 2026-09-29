@@ -1,2 +1,183 @@
 # sea-lion
-My custom implementation in ing-bank/lion
+
+**Shadcn UI, but as web components.** `sea-lion` is a component library that extends
+[`ing-bank/lion`](https://github.com/ing-bank/lion) — a white-label, accessibility-first web
+component library built on [Lit](https://lit.dev) — and dresses it in the
+[Shadcn UI](https://ui.shadcn.com) styleguide.
+
+> Shadcn UI is to Radix UI what sea-lion is to lion: lion brings the behaviour, accessibility and
+> API; sea-lion brings the look.
+
+Everything hard (focus traps, roving tabindex, ARIA wiring, form model/validation, overlay
+positioning, i18n) stays in lion. sea-lion only adds design tokens, a variant API and CSS.
+
+```html
+<link rel="stylesheet" href="node_modules/sea-lion/src/tokens/tokens.css" />
+<script type="module">
+  import 'sea-lion/define.js';
+</script>
+
+<sea-button variant="destructive">Delete account</sea-button>
+<sea-input label="Email" help-text="We never share your address."></sea-input>
+<sea-switch label="Airplane mode"></sea-switch>
+```
+
+## Install
+
+```bash
+npm install sea-lion
+```
+
+`lit` is a peer dependency; `@lion/ui` is a regular dependency.
+
+## Usage
+
+Three import styles, pick what fits:
+
+```js
+// 1. everything, registered as <sea-*> elements
+import 'sea-lion/define.js';
+
+// 2. a single component (best for tree shaking)
+import 'sea-lion/src/components/button/sea-button.js';
+
+// 3. classes only — register under your own tag names, or extend them further
+import { SeaButton } from 'sea-lion';
+customElements.define('acme-button', class extends SeaButton {});
+```
+
+The global theme sheet is optional: every component carries the light theme as built-in fallback
+values. Load `sea-lion/tokens.css` to enable page-level theming, dark mode and the light DOM
+helper classes.
+
+## Components
+
+| Element | lion base | Notes |
+| --- | --- | --- |
+| `<sea-button>` | `LionButton` | `variant`: default \| secondary \| destructive \| outline \| ghost \| link, `size`: sm \| default \| lg \| icon |
+| `<sea-input>` | `LionInput` | full lion form model, formatters and validators |
+| `<sea-textarea>` | `LionTextarea` | auto-grow via `rows` / `max-rows` |
+| `<sea-select>` | `LionSelect` | native `<select slot="input">` with a custom chevron |
+| `<sea-checkbox>` / `<sea-checkbox-group>` | `LionCheckbox(Group)` | custom check graphic, native input kept for a11y |
+| `<sea-radio>` / `<sea-radio-group>` | `LionRadio(Group)` | custom dot graphic |
+| `<sea-switch>` | `LionSwitch` | swaps lion's switch button for `SeaSwitchButton` |
+| `<sea-tabs>` | `LionTabs` | `slot="tab"` + `slot="panel"` pairs |
+| `<sea-accordion>` | `LionAccordion` | use `class="sl-accordion-trigger"` on the invoker button |
+| `<sea-collapsible>` | `LionCollapsible` | |
+| `<sea-dialog>` + `<sea-dialog-content>` | `LionDialog` | focus trap, scroll lock, Esc, backdrop from lion |
+| `<sea-tooltip>` + `<sea-tooltip-content>` | `LionTooltip` | popper positioning from lion |
+| `<sea-progress>` | `LionProgressIndicator` | determinate and indeterminate |
+| `<sea-card>`, `<sea-badge>`, `<sea-alert>`, `<sea-label>`, `<sea-separator>` | — | purely presentational, so plain `LitElement`s |
+
+### Why some components have a separate `*-content` element
+
+Lion teleports overlay content to a global overlay container outside of the component, so styles
+from the dialog/tooltip shadow root can no longer reach it. `<sea-dialog-content>` and
+`<sea-tooltip-content>` are standalone elements that carry their own styles, which keeps the
+surfaces looking right wherever lion moves them. Closing is done by dispatching lion's
+`close-overlay` event (`content.close()`).
+
+## Theming
+
+Tokens follow the Shadcn palette (OKLCH) and are plain CSS custom properties prefixed with `--sl-`.
+Because custom properties inherit into shadow DOM, overriding them anywhere above a component
+re-skins it:
+
+```css
+:root {
+  --sl-primary: oklch(0.55 0.22 264);
+  --sl-primary-foreground: oklch(0.99 0 0);
+  --sl-radius: 0.375rem;
+}
+```
+
+Dark mode is a class on any ancestor:
+
+```html
+<html class="dark">
+  <!-- or class="theme-system" to follow prefers-color-scheme -->
+</html>
+```
+
+Scoped theming works too — put the variables on a wrapper element to theme only part of a page.
+
+## Variants
+
+Instead of composing class names like `class-variance-authority` does in Shadcn, sea-lion reflects
+variants as attributes, so all styling stays in CSS and stays overridable:
+
+```html
+<sea-button variant="outline" size="sm">Cancel</sea-button>
+```
+
+`VariantMixin` declares the allowed values and falls back to the default for unknown ones:
+
+```js
+import { VariantMixin } from 'sea-lion';
+
+class AcmeChip extends VariantMixin(LitElement) {
+  static variantConfig = {
+    variant: { options: ['default', 'brand'], default: 'default' },
+    size: { options: ['sm', 'default'], default: 'default' },
+  };
+}
+```
+
+## Extending sea-lion
+
+The same way sea-lion extends lion, you extend sea-lion. Import the class, add styles, register it:
+
+```js
+import { css } from 'lit';
+import { SeaButton, t } from 'sea-lion';
+
+export class AcmeButton extends SeaButton {
+  static get styles() {
+    return [
+      ...super.styles,
+      css`
+        :host([variant='default']) {
+          background-color: ${t('primary')};
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+        }
+      `,
+    ];
+  }
+}
+
+customElements.define('acme-button', AcmeButton);
+```
+
+Exported building blocks: `t()` and `defaultTokens` (tokens), `VariantMixin`, `baseStyles`,
+`focusRingStyles`, `srOnlyStyles`, `disabledStyles`, `formControlStyles`, `textFieldStyles`,
+`choiceFieldStyles`, `choiceGroupStyles` and `ensureOverlayStyles()`.
+
+Lion components that sea-lion does not skin yet (combobox, select-rich, input-datepicker,
+input-tel, pagination, steps, …) can be added with the exact same recipe: extend the lion class,
+append token-based styles, export a `sea-*.js` definition file.
+
+## Light DOM helpers
+
+A few Shadcn parts are authored by the consumer outside of any shadow root and therefore cannot be
+styled by a component. `tokens.css` ships classes for them:
+
+- `.sl-accordion-trigger` — the `<button>` inside an accordion invoker heading (includes the chevron)
+- `.sl-dialog-title` / `.sl-dialog-description` — dialog and card header typography
+
+## Development
+
+```bash
+npm install
+npm start     # dev server with the demo page at demo/index.html
+npm test      # web-test-runner (headless Chrome)
+```
+
+## Credits
+
+- [ing-bank/lion](https://github.com/ing-bank/lion) — behaviour, accessibility and APIs (MIT)
+- [Shadcn UI](https://ui.shadcn.com) — the design language this library reproduces (MIT)
+
+## License
+
+MIT

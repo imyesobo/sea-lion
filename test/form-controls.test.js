@@ -66,6 +66,16 @@ describe('sea-checkbox', () => {
     // lion defaults to `display: none`; sea-lion shows it (blockified to `flex` by the flex host)
     expect(getComputedStyle(graphic).display).to.equal('flex');
   });
+
+  it('lets clicks reach the native input (the graphic must not swallow them)', async () => {
+    const el = await fixture(html`<sea-checkbox label="Accept"></sea-checkbox>`);
+    const graphic = el.shadowRoot.querySelector('.choice-field__graphic-container');
+    expect(getComputedStyle(graphic).pointerEvents).to.equal('none');
+
+    const { left, top, width, height } = graphic.getBoundingClientRect();
+    const topElement = el.shadowRoot.elementFromPoint(left + width / 2, top + height / 2);
+    expect(topElement).to.equal(el._inputNode);
+  });
 });
 
 describe('sea-checkbox-group', () => {

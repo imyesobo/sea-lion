@@ -140,10 +140,12 @@ export const choiceFieldStyles = css`
     font-size: ${t('text-sm')};
   }
 
+  /* The native input stays operable (and hit-testable) on top of the graphic. */
   ::slotted([slot='input']) {
     position: absolute;
-    top: 0;
+    top: 0.125rem;
     left: 0;
+    z-index: 1;
     width: 1rem;
     height: 1rem;
     margin: 0;
@@ -151,8 +153,13 @@ export const choiceFieldStyles = css`
     cursor: pointer;
   }
 
+  ::slotted([slot='input']:disabled) {
+    cursor: not-allowed;
+  }
+
   .choice-field__graphic-container {
     display: inline-flex;
+    pointer-events: none;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
