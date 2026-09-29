@@ -2,25 +2,53 @@
   "name": "sea-lion",
   "version": "0.1.0",
   "description": "Shadcn-inspired web components built on top of @lion/ui and Lit",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "web-dev-server --node-resolve --open demo/ --watch",
+    "test": "web-test-runner \"test/**/*.test.js\" --node-resolve",
+    "test:watch": "web-test-runner \"test/**/*.test.js\" --node-resolve --watch"
   },
   "repository": {
     "type": "git",
     "url": "http://localhost:26831/imyesobo/sea-lion"
   },
-  "keywords": [],
+  "keywords": [
+    "web-components",
+    "lit",
+    "lion",
+    "shadcn",
+    "design-system",
+    "custom-elements"
+  ],
   "author": "",
   "license": "MIT",
   "type": "module",
   "dependencies": {
     "@lion/ui": "^0.21.1",
+    "@open-wc/dedupe-mixin": "^2.0.1",
     "lit": "^3.3.3"
   },
   "devDependencies": {
     "@open-wc/testing": "^5.0.0",
     "@web/dev-server": "^1.0.0",
     "@web/test-runner": "^1.0.0"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./define.js": "./define.js",
+    "./tokens.css": "./src/tokens/tokens.css",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "define.js",
+    "src"
+  ],
+  "sideEffects": [
+    "./define.js",
+    "./src/components/**/sea-*.js"
+  ],
+  "peerDependencies": {
+    "lit": "^3.0.0"
   }
 }
