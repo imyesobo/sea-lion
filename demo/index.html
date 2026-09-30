@@ -50,7 +50,7 @@
         styleguide. Toggle the theme to see the design tokens at work.
       </p>
       <div class="row">
-        <sea-button id="theme-toggle" variant="outline" size="sm">Toggle dark mode</sea-button>
+        <sea-button id="theme-toggle" variant="outline" size="sm">Switch to dark mode</sea-button>
         <sea-badge variant="secondary">v0.1.0</sea-badge>
       </div>
     </header>
@@ -202,9 +202,30 @@
     </section>
 
     <script type="module">
-      document.getElementById('theme-toggle').addEventListener('click', () => {
-        document.documentElement.classList.toggle('dark');
+      const root = document.documentElement;
+      const themeToggle = document.getElementById('theme-toggle');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+      // `theme-system` is only the initial default: once the user toggles, an explicit
+      // `light`/`dark` class takes over (and wins over the system preference).
+      const isDark = () =>
+        root.classList.contains('dark') ||
+        (!root.classList.contains('light') && systemPrefersDark.matches);
+
+      const syncLabel = () => {
+        themeToggle.textContent = isDark() ? 'Switch to light mode' : 'Switch to dark mode';
+      };
+
+      themeToggle.addEventListener('click', () => {
+        const nextIsDark = !isDark();
+        root.classList.toggle('dark', nextIsDark);
+        root.classList.toggle('light', !nextIsDark);
+        syncLabel();
       });
+
+      // Keep the label in sync while still following the OS preference.
+      systemPrefersDark.addEventListener('change', syncLabel);
+      syncLabel();
 
       // `choiceValue` is a property, so it is assigned here instead of in the markup
       document.querySelectorAll('[data-choice-value]').forEach(el => {

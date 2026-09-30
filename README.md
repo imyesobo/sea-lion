@@ -91,12 +91,21 @@ re-skins it:
 }
 ```
 
-Dark mode is a class on any ancestor:
+Set the theme with a class (or `data-theme` attribute) on `<html>`, or on any ancestor:
 
-```html
-<html class="dark">
-  <!-- or class="theme-system" to follow prefers-color-scheme -->
-</html>
+| Value                                  | Behaviour                     |
+| -------------------------------------- | ----------------------------- |
+| `class="light"` / `data-theme="light"` | always light (the default)    |
+| `class="dark"` / `data-theme="dark"`   | always dark                   |
+| `class="theme-system"`                 | follow `prefers-color-scheme` |
+
+An explicit `light`/`dark` always wins over `theme-system`, so you can start from the system
+preference and still let users override it:
+
+```js
+const root = document.documentElement; // <html class="theme-system">
+root.classList.toggle('dark', userWantsDark);
+root.classList.toggle('light', !userWantsDark);
 ```
 
 Scoped theming works too — put the variables on a wrapper element to theme only part of a page.

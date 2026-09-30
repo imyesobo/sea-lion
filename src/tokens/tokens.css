@@ -4,11 +4,18 @@
  * Optional: every component ships with the light theme as built-in fallback values.
  * Load this file to opt into page-level theming, the dark theme and the base page styles.
  *
- * Dark mode: add `class="dark"` (or `data-theme="dark"`) to <html>, or rely on the
- * `prefers-color-scheme` block below by adding `class="theme-system"` to <html>.
+ * Theme selection on <html> (or any ancestor):
+ * - `class="dark"`  / `data-theme="dark"`  — always dark
+ * - `class="light"` / `data-theme="light"` — always light (the default)
+ * - `class="theme-system"` — follow `prefers-color-scheme`
+ *
+ * `theme-system` may be combined with a manual toggle: an explicit `dark`/`light` always wins over
+ * the system preference, so `class="theme-system"` acts as the initial default only.
  */
 
-:root {
+:root,
+.light,
+[data-theme='light'] {
   --sl-background: oklch(1 0 0);
   --sl-foreground: oklch(0.145 0 0);
   --sl-card: oklch(1 0 0);
@@ -68,7 +75,10 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .theme-system {
+  /* `theme-system` only applies while no explicit theme is set, so a manual dark/light toggle
+     always wins over the OS preference. Without these guards this block — being later in the
+     sheet and of equal specificity — would override `.dark` and make such a toggle a no-op. */
+  .theme-system:not(.dark):not(.light):not([data-theme='dark']):not([data-theme='light']) {
     --sl-background: oklch(0.145 0 0);
     --sl-foreground: oklch(0.985 0 0);
     --sl-card: oklch(0.205 0 0);
