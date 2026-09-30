@@ -227,6 +227,15 @@
       systemPrefersDark.addEventListener('change', syncLabel);
       syncLabel();
 
+      // The toggle only has a visible effect once tokens.css is loaded, so fail loudly instead of
+      // silently doing nothing when it is missing or served stale.
+      if (!getComputedStyle(root).getPropertyValue('--sl-background').trim()) {
+        console.error(
+          '[sea-lion demo] src/tokens/tokens.css did not load, so switching the theme will have ' +
+            'no visible effect. Serve the repository root (npm start) and hard-reload the page.',
+        );
+      }
+
       // `choiceValue` is a property, so it is assigned here instead of in the markup
       document.querySelectorAll('[data-choice-value]').forEach(el => {
         el.choiceValue = el.dataset.choiceValue;
