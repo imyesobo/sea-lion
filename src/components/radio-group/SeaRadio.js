@@ -8,6 +8,7 @@ import { choiceFieldStyles } from '../../styles/form-control.js';
  * `<sea-radio>` — Shadcn styled radio on top of `LionRadio`.
  *
  * @slot label - the radio label
+ * @fires model-value-changed - the checked state changed; read `.checked` and `.choiceValue`. Bubbles.
  * @customElement sea-radio
  */
 export class SeaRadio extends LionRadio {

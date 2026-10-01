@@ -5,6 +5,7 @@ import { formControlStyles, choiceGroupStyles } from '../../styles/form-control.
 /**
  * `<sea-radio-group>` — Shadcn styled group wrapper on top of `LionRadioGroup`.
  *
+ * @fires model-value-changed - the selection changed; `.modelValue` is the checked `choiceValue`. Bubbles.
  * @customElement sea-radio-group
  */
 export class SeaRadioGroup extends LionRadioGroup {

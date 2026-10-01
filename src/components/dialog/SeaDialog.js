@@ -12,6 +12,9 @@ import { ensureOverlayStyles } from '../../styles/overlay.js';
  *
  * @slot invoker - the element that opens the dialog
  * @slot content - the dialog surface, typically a `<sea-dialog-content>`
+ * @fires before-opened - cancelable; call `preventDefault()` to stop the dialog opening. Does **not** bubble.
+ * @fires opened-changed - the dialog opened or closed; read `.opened`. Does **not** bubble.
+ * @fires before-closed - cancelable; call `preventDefault()` to keep the dialog open. Does **not** bubble.
  * @customElement sea-dialog
  */
 export class SeaDialog extends LionDialog {

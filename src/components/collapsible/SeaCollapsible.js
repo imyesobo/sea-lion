@@ -8,6 +8,7 @@ import { baseStyles } from '../../styles/shared.js';
  *
  * @slot invoker - the toggle button
  * @slot content - the collapsible content
+ * @fires opened-changed - the content opened or closed; read `.opened`. Does **not** bubble.
  * @customElement sea-collapsible
  */
 export class SeaCollapsible extends LionCollapsible {

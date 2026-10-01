@@ -12,6 +12,12 @@ import { formControlStyles, textFieldStyles } from '../../styles/form-control.js
  *
  * @slot label - the field label
  * @slot input - the native `<select>` with its `<option>`s
+ * @fires model-value-changed - the value changed; read it from `.modelValue`. Bubbles.
+ * @fires user-input-changed - the user (not code) changed the value. Bubbles.
+ * @fires focused-changed - the field gained or lost focus. Bubbles.
+ * @fires touched-changed - the field was blurred after being focused. Bubbles.
+ * @fires dirty-changed - the value changed at least once. Bubbles.
+ * @fires validate-performed - validation ran; inspect `.hasFeedbackFor`. Bubbles.
  * @customElement sea-select
  */
 export class SeaSelect extends LionSelect {

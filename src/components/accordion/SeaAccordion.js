@@ -11,6 +11,8 @@ import { baseStyles } from '../../styles/shared.js';
  *
  * @slot invoker - the headings containing the toggle buttons
  * @slot content - the collapsible panels
+ * @fires expanded-changed - a panel opened or closed; `.expanded` is an array of open indexes. Does **not** bubble.
+ * @fires focused-changed - keyboard focus moved to another invoker. Does **not** bubble.
  * @customElement sea-accordion
  */
 export class SeaAccordion extends LionAccordion {

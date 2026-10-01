@@ -14,6 +14,12 @@ import { formControlStyles, textFieldStyles } from '../../styles/form-control.js
  * @slot help-text - supporting copy under the label
  * @slot prefix,suffix,before,after - adornments
  * @slot feedback - validation feedback (managed by lion)
+ * @fires model-value-changed - the value changed; read it from `.modelValue`. Bubbles.
+ * @fires user-input-changed - the user (not code) changed the value. Bubbles.
+ * @fires focused-changed - the field gained or lost focus. Bubbles.
+ * @fires touched-changed - the field was blurred after being focused. Bubbles.
+ * @fires dirty-changed - the value changed at least once. Bubbles.
+ * @fires validate-performed - validation ran; inspect `.hasFeedbackFor`. Bubbles.
  * @customElement sea-input
  */
 export class SeaInput extends LionInput {

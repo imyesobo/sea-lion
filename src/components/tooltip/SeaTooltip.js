@@ -11,6 +11,8 @@ import { ensureOverlayStyles } from '../../styles/overlay.js';
  *
  * @slot invoker - the element the tooltip describes
  * @slot content - the tooltip surface, typically a `<sea-tooltip-content>`
+ * @fires before-opened - cancelable; call `preventDefault()` to stop the tooltip showing. Does **not** bubble.
+ * @fires opened-changed - the tooltip showed or hid; read `.opened`. Does **not** bubble.
  * @customElement sea-tooltip
  */
 export class SeaTooltip extends LionTooltip {

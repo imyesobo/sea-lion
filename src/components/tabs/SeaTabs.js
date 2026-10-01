@@ -11,6 +11,7 @@ import { baseStyles } from '../../styles/shared.js';
  *
  * @slot tab - the tab invokers
  * @slot panel - the tab panels
+ * @fires selected-changed - the active tab changed; read `.selectedIndex`. Does **not** bubble.
  * @customElement sea-tabs
  */
 export class SeaTabs extends LionTabs {

@@ -4,6 +4,9 @@
   "description": "Shadcn-inspired web components built on top of @lion/ui and Lit",
   "scripts": {
     "start": "web-dev-server --node-resolve --open demo/ --watch",
+    "analyze": "cem analyze --globs \"src/components/**/Sea*.js\"",
+    "storybook": "npm run analyze && storybook dev -p 6006",
+    "build-storybook": "npm run analyze && storybook build",
     "test": "web-test-runner \"test/**/*.test.js\" --node-resolve",
     "test:watch": "web-test-runner \"test/**/*.test.js\" --node-resolve --watch"
   },
@@ -28,6 +31,7 @@
     "lit": "^3.0.0"
   },
   "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
     "@open-wc/testing": "^5.0.0",
     "@storybook/addon-docs": "^10.6.1",
     "@storybook/web-components-vite": "^10.6.1",
@@ -46,7 +50,8 @@
   "files": [
     "index.js",
     "define.js",
-    "src"
+    "src",
+    "!src/**/*.stories.js"
   ],
   "sideEffects": [
     "./define.js",
@@ -54,5 +59,6 @@
   ],
   "peerDependencies": {
     "lit": "^3.0.0"
-  }
+  },
+  "customElements": "custom-elements.json"
 }

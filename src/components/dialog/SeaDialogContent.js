@@ -13,6 +13,7 @@ import { baseStyles } from '../../styles/shared.js';
  * @slot - the dialog body
  * @slot footer - action buttons
  * @attr {boolean} no-close-button - hides the built-in close button
+ * @fires close-overlay - the close button was pressed; lion closes the surrounding overlay. Bubbles.
  * @customElement sea-dialog-content
  */
 export class SeaDialogContent extends LitElement {

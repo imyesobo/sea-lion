@@ -1,0 +1,89 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Theming" />
+
+# Theming
+
+sea-lion has no build step and no class-name generator. Every component reads plain CSS custom
+properties prefixed with `--sl-`, so restyling the whole library is a matter of redefining a handful
+of values.
+
+> Use the **Theme** control in the toolbar above to flip these docs between light and dark.
+
+## Overriding tokens
+
+```css
+:root {
+  --sl-primary: oklch(0.55 0.22 264);
+  --sl-primary-foreground: oklch(0.99 0 0);
+  --sl-radius: 0.375rem;
+}
+```
+
+That is the whole API for a custom styleguide. Because the tokens are inherited CSS custom
+properties, they pierce shadow DOM — no `::part` gymnastics required.
+
+Scoped theming works too: set the variables on any wrapper element to re-theme just that subtree.
+
+## Choosing a theme
+
+Set a class (or `data-theme` attribute) on `<html>`, or on any ancestor:
+
+| Value                                  | Behaviour                     |
+| -------------------------------------- | ----------------------------- |
+| `class="light"` / `data-theme="light"` | always light (the default)    |
+| `class="dark"` / `data-theme="dark"`   | always dark                   |
+| `class="theme-system"`                 | follow `prefers-color-scheme` |
+
+An explicit `light` or `dark` **always wins** over `theme-system`. That lets you start from the
+system preference and still let the user override it:
+
+```html
+<html class="theme-system"></html>
+```
+
+```js
+const root = document.documentElement;
+
+function setTheme(wantsDark) {
+  root.classList.toggle("dark", wantsDark);
+  root.classList.toggle("light", !wantsDark);
+}
+```
+
+Toggling only `dark` is not enough: on a machine whose OS is in dark mode, removing `dark` would
+fall back to `theme-system`, which resolves to dark again. Setting both classes makes the choice
+explicit in each direction.
+
+## Fallbacks without the stylesheet
+
+Each component embeds the light value of every token it uses:
+
+```css
+background-color: var(--sl-primary, oklch(0.205 0 0));
+```
+
+So a component dropped into a page that never loads `tokens.css` still renders correctly in light
+mode. The stylesheet is what adds the dark palette, page-level base styles and the light-DOM helper
+classes (`.sl-accordion-trigger`, `.sl-dialog-title`, `.sl-dialog-description`).
+
+## Token reference
+
+The palette follows Shadcn's OKLCH scale. Colour tokens come in `--sl-x` / `--sl-x-foreground`
+pairs, where the `-foreground` value is guaranteed to be legible on its partner.
+
+| Token                                              | Used for                          |
+| -------------------------------------------------- | --------------------------------- |
+| `--sl-background` / `--sl-foreground`              | page surface and body text        |
+| `--sl-card` / `--sl-card-foreground`               | cards                             |
+| `--sl-popover` / `--sl-popover-foreground`         | dialogs, tooltips                 |
+| `--sl-primary` / `--sl-primary-foreground`         | default buttons, progress fill    |
+| `--sl-secondary` / `--sl-secondary-foreground`     | secondary buttons, badges         |
+| `--sl-muted` / `--sl-muted-foreground`             | subdued surfaces, help text       |
+| `--sl-accent` / `--sl-accent-foreground`           | hover states                      |
+| `--sl-destructive` / `--sl-destructive-foreground` | destructive actions, errors       |
+| `--sl-border`                                      | borders and dividers              |
+| `--sl-input`                                       | form control borders              |
+| `--sl-ring`                                        | focus rings                       |
+| `--sl-radius`                                      | corner radius for every component |
+| `--sl-font-sans` / `--sl-font-mono`                | type families                     |

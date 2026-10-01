@@ -12,6 +12,7 @@ import { SeaSwitchButton } from './SeaSwitchButton.js';
  * so no lion styling leaks into the component.
  *
  * @slot label - the switch label
+ * @fires model-value-changed - the switch was toggled; read `.checked`. Bubbles.
  * @customElement sea-switch
  */
 export class SeaSwitch extends LionSwitch {

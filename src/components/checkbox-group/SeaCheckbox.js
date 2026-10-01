@@ -12,6 +12,7 @@ import { choiceFieldStyles } from '../../styles/form-control.js';
  * which we fill with a check icon.
  *
  * @slot label - the checkbox label
+ * @fires model-value-changed - the checked state changed; read `.checked` and `.choiceValue`. Bubbles.
  * @customElement sea-checkbox
  */
 export class SeaCheckbox extends LionCheckbox {
