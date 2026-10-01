@@ -1,0 +1,189 @@
+/**
+ * sea-lion global theme sheet.
+ *
+ * Optional: every component ships with the light theme as built-in fallback values.
+ * Load this file to opt into page-level theming, the dark theme and the base page styles.
+ *
+ * Theme selection on <html> (or any ancestor):
+ * - `class="dark"`  / `data-theme="dark"`  — always dark
+ * - `class="light"` / `data-theme="light"` — always light (the default)
+ * - `class="theme-system"` — follow `prefers-color-scheme`
+ *
+ * `theme-system` may be combined with a manual toggle: an explicit `dark`/`light` always wins over
+ * the system preference, so `class="theme-system"` acts as the initial default only.
+ */
+
+:root,
+.light,
+[data-theme='light'] {
+  --sl-background: oklch(1 0 0);
+  --sl-foreground: oklch(0.145 0 0);
+  --sl-card: oklch(1 0 0);
+  --sl-card-foreground: oklch(0.145 0 0);
+  --sl-popover: oklch(1 0 0);
+  --sl-popover-foreground: oklch(0.145 0 0);
+
+  --sl-primary: oklch(0.205 0 0);
+  --sl-primary-foreground: oklch(0.985 0 0);
+  --sl-secondary: oklch(0.97 0 0);
+  --sl-secondary-foreground: oklch(0.205 0 0);
+  --sl-muted: oklch(0.97 0 0);
+  --sl-muted-foreground: oklch(0.556 0 0);
+  --sl-accent: oklch(0.97 0 0);
+  --sl-accent-foreground: oklch(0.205 0 0);
+  --sl-destructive: oklch(0.577 0.245 27.325);
+  --sl-destructive-foreground: oklch(0.985 0 0);
+
+  --sl-border: oklch(0.922 0 0);
+  --sl-input: oklch(0.922 0 0);
+  --sl-ring: oklch(0.708 0 0);
+
+  --sl-radius: 0.625rem;
+
+  --sl-font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  color-scheme: light;
+}
+
+.dark,
+[data-theme='dark'] {
+  --sl-background: oklch(0.145 0 0);
+  --sl-foreground: oklch(0.985 0 0);
+  --sl-card: oklch(0.205 0 0);
+  --sl-card-foreground: oklch(0.985 0 0);
+  --sl-popover: oklch(0.269 0 0);
+  --sl-popover-foreground: oklch(0.985 0 0);
+
+  --sl-primary: oklch(0.922 0 0);
+  --sl-primary-foreground: oklch(0.205 0 0);
+  --sl-secondary: oklch(0.269 0 0);
+  --sl-secondary-foreground: oklch(0.985 0 0);
+  --sl-muted: oklch(0.269 0 0);
+  --sl-muted-foreground: oklch(0.708 0 0);
+  --sl-accent: oklch(0.371 0 0);
+  --sl-accent-foreground: oklch(0.985 0 0);
+  --sl-destructive: oklch(0.704 0.191 22.216);
+  --sl-destructive-foreground: oklch(0.985 0 0);
+
+  --sl-border: oklch(1 0 0 / 10%);
+  --sl-input: oklch(1 0 0 / 15%);
+  --sl-ring: oklch(0.556 0 0);
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* `theme-system` only applies while no explicit theme is set, so a manual dark/light toggle
+     always wins over the OS preference. Without these guards this block — being later in the
+     sheet and of equal specificity — would override `.dark` and make such a toggle a no-op. */
+  .theme-system:not(.dark):not(.light):not([data-theme='dark']):not([data-theme='light']) {
+    --sl-background: oklch(0.145 0 0);
+    --sl-foreground: oklch(0.985 0 0);
+    --sl-card: oklch(0.205 0 0);
+    --sl-card-foreground: oklch(0.985 0 0);
+    --sl-popover: oklch(0.269 0 0);
+    --sl-popover-foreground: oklch(0.985 0 0);
+
+    --sl-primary: oklch(0.922 0 0);
+    --sl-primary-foreground: oklch(0.205 0 0);
+    --sl-secondary: oklch(0.269 0 0);
+    --sl-secondary-foreground: oklch(0.985 0 0);
+    --sl-muted: oklch(0.269 0 0);
+    --sl-muted-foreground: oklch(0.708 0 0);
+    --sl-accent: oklch(0.371 0 0);
+    --sl-accent-foreground: oklch(0.985 0 0);
+    --sl-destructive: oklch(0.704 0.191 22.216);
+    --sl-destructive-foreground: oklch(0.985 0 0);
+
+    --sl-border: oklch(1 0 0 / 10%);
+    --sl-input: oklch(1 0 0 / 15%);
+    --sl-ring: oklch(0.556 0 0);
+
+    color-scheme: dark;
+  }
+}
+
+/* Base page styles (opt-in, mirrors the Shadcn `@layer base` reset). */
+body.sl-base {
+  margin: 0;
+  background-color: var(--sl-background);
+  color: var(--sl-foreground);
+  font-family: var(--sl-font-sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The lion overlay manager teleports dialog/tooltip content into this container,
+   outside of any component. Tokens are inherited from :root, so nothing extra is needed,
+   but the stacking context and font are set here for convenience. */
+.overlays {
+  font-family: var(--sl-font-sans);
+}
+
+/* ---------------------------------------------------------------------------------------------
+ * Light DOM helpers
+ *
+ * A few Shadcn parts are authored by the consumer in the light DOM (the `<button>` inside an
+ * accordion invoker heading, the title/description of a dialog header). Shadow DOM cannot style
+ * those grandchildren, so sea-lion ships classes for them — the closest thing to Shadcn's
+ * "copy the classes" model.
+ * ------------------------------------------------------------------------------------------- */
+
+.sl-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 0;
+  border: none;
+  background: transparent;
+  color: var(--sl-foreground);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  border-radius: calc(var(--sl-radius, 0.625rem) - 2px);
+}
+
+.sl-accordion-trigger:hover {
+  text-decoration: underline;
+}
+
+.sl-accordion-trigger:focus-visible {
+  outline: 2px solid var(--sl-ring);
+  outline-offset: 2px;
+}
+
+.sl-accordion-trigger::after {
+  content: '';
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sl-accordion-trigger[aria-expanded='true']::after {
+  transform: rotate(180deg);
+}
+
+.sl-dialog-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--sl-foreground);
+}
+
+.sl-dialog-description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--sl-muted-foreground);
+}

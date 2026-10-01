@@ -1,0 +1,97 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# sea-lion
+
+**White-label accessibility from [ing-bank/lion](https://github.com/ing-bank/lion), dressed in the
+[Shadcn UI](https://ui.shadcn.com) styleguide.**
+
+Shadcn UI is to Radix UI what sea-lion is to lion: the behaviour, keyboard interaction and ARIA
+wiring are inherited from a battle-tested headless library, and sea-lion supplies only the skin —
+as real custom elements you can use from any framework, or none.
+
+## Installation
+
+```bash
+npm install sea-lion
+```
+
+## Usage
+
+Register the elements you need, then use them as plain HTML.
+
+```js
+// everything
+import "sea-lion/define.js";
+
+// or just what you use, which tree-shakes better
+import "sea-lion/src/components/button/sea-button.js";
+import "sea-lion/src/components/input/sea-input.js";
+```
+
+```html
+<sea-button variant="destructive">Delete</sea-button>
+<sea-input label="Email" help-text="We never share your address."></sea-input>
+```
+
+Load the token stylesheet once, at the root of your app, to get the dark theme and the base page
+styles:
+
+```js
+import "sea-lion/tokens.css";
+```
+
+Components ship with the light theme compiled in as fallback values, so they still look right if you
+forget — but theming and dark mode need the stylesheet. See **Theming** for the details.
+
+## How to read these docs
+
+Every component page has:
+
+- a **Playground** story with live controls for each attribute,
+- stories for the variants and states worth knowing about,
+- a **Handling events** story with a live event log, wherever the component emits something.
+
+The attribute, slot and event tables are generated from the source JSDoc, so they cannot drift away
+from the implementation.
+
+## Two things that trip people up
+
+**Some events do not bubble.** `selected-changed` (tabs), `expanded-changed` (accordion) and
+`opened-changed` (collapsible, dialog, tooltip) are dispatched without `bubbles: true` by lion.
+Attach those listeners to the component itself — delegating from an ancestor silently never fires.
+Form control events (`model-value-changed` and friends) _do_ bubble, so a form can listen once at
+the top.
+
+**`choiceValue` is a property, not an attribute.** It can hold any type, so lion keeps it off the
+attribute API:
+
+```js
+document.querySelector("sea-checkbox").choiceValue = "email";
+```
+
+## Extending a component
+
+Every component is a normal Lit class, so the escape hatch is ordinary subclassing:
+
+```js
+import { css } from "lit";
+import { SeaButton } from "sea-lion";
+
+class AcmeButton extends SeaButton {
+  static get styles() {
+    return [
+      ...super.styles,
+      css`
+        :host {
+          border-radius: 0;
+        }
+      `,
+    ];
+  }
+}
+customElements.define("acme-button", AcmeButton);
+```
+
+Most of the time you will not need to: restyling is a matter of overriding CSS custom properties.

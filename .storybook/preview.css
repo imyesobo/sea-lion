@@ -1,0 +1,48 @@
+/* Preview-only chrome. Component styling lives in src/tokens/tokens.css. */
+
+body.sl-base {
+  padding: 1.5rem;
+}
+
+/* Storybook renders stories on its own white canvas, so make the canvas follow the token theme. */
+.sb-show-main.sb-main-padded {
+  background-color: var(--sl-background);
+  color: var(--sl-foreground);
+}
+
+/* Layout helpers used by the stories. */
+.sl-story-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sl-story-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 24rem;
+}
+
+/* Event log rendered by the "events" stories. */
+.sl-event-log {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  min-height: 3rem;
+  max-height: 12rem;
+  overflow-y: auto;
+  border: 1px solid var(--sl-border);
+  border-radius: var(--sl-radius);
+  background-color: var(--sl-muted);
+  color: var(--sl-muted-foreground);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.sl-event-log:empty::after {
+  content: "Interact with the component above to see its events.";
+  opacity: 0.7;
+}

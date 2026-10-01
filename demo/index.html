@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en" class="theme-system">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>sea-lion — Shadcn UI components built on lion</title>
+    <link rel="stylesheet" href="../src/tokens/tokens.css" />
+    <script type="module" src="../define.js"></script>
+    <style>
+      body {
+        max-width: 56rem;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 6rem;
+      }
+      header p {
+        color: var(--sl-muted-foreground);
+        max-width: 42rem;
+      }
+      section {
+        margin-top: 3rem;
+      }
+      h1 {
+        font-size: 1.875rem;
+        margin-bottom: 0.5rem;
+      }
+      h2 {
+        font-size: 1.125rem;
+        margin-bottom: 1rem;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-width: 24rem;
+      }
+    </style>
+  </head>
+  <body class="sl-base">
+    <header>
+      <h1>sea-lion</h1>
+      <p>
+        White-label accessibility and behaviour from
+        <a href="https://github.com/ing-bank/lion">ing-bank/lion</a>, dressed in the Shadcn UI
+        styleguide. Toggle the theme to see the design tokens at work.
+      </p>
+      <div class="row">
+        <sea-button id="theme-toggle" variant="outline" size="sm">Switch to dark mode</sea-button>
+        <sea-badge variant="secondary">v0.1.0</sea-badge>
+      </div>
+    </header>
+
+    <section>
+      <h2>Button</h2>
+      <div class="row">
+        <sea-button>Default</sea-button>
+        <sea-button variant="secondary">Secondary</sea-button>
+        <sea-button variant="destructive">Destructive</sea-button>
+        <sea-button variant="outline">Outline</sea-button>
+        <sea-button variant="ghost">Ghost</sea-button>
+        <sea-button variant="link">Link</sea-button>
+        <sea-button disabled>Disabled</sea-button>
+      </div>
+      <div class="row" style="margin-top: 0.75rem">
+        <sea-button size="sm">Small</sea-button>
+        <sea-button>Default</sea-button>
+        <sea-button size="lg">Large</sea-button>
+        <sea-button size="icon" aria-label="Add">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </sea-button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Form controls</h2>
+      <div class="stack">
+        <sea-input label="Email" help-text="We never share your address."></sea-input>
+        <sea-textarea label="Message" rows="3"></sea-textarea>
+        <sea-select label="Framework">
+          <select slot="input">
+            <option value="lit">Lit</option>
+            <option value="lion">Lion</option>
+            <option value="sea-lion" selected>sea-lion</option>
+          </select>
+        </sea-select>
+        <sea-checkbox-group name="preferences" label="Notifications">
+          <sea-checkbox label="Email" data-choice-value="email"></sea-checkbox>
+          <sea-checkbox label="SMS" data-choice-value="sms"></sea-checkbox>
+        </sea-checkbox-group>
+        <sea-radio-group name="plan" label="Plan">
+          <sea-radio label="Free" data-choice-value="free"></sea-radio>
+          <sea-radio label="Pro" data-choice-value="pro"></sea-radio>
+        </sea-radio-group>
+        <sea-switch label="Airplane mode"></sea-switch>
+      </div>
+    </section>
+
+    <section>
+      <h2>Feedback</h2>
+      <div class="stack" style="max-width: 32rem">
+        <sea-alert>
+          <svg
+            slot="icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4M12 8h.01" />
+          </svg>
+          <span slot="title">Heads up!</span>
+          You can add components to your app using the CLI.
+        </sea-alert>
+        <sea-alert variant="destructive">
+          <span slot="title">Something went wrong</span>
+          Your session has expired. Please log in again.
+        </sea-alert>
+        <sea-progress value="60"></sea-progress>
+        <sea-progress></sea-progress>
+      </div>
+    </section>
+
+    <section>
+      <h2>Card</h2>
+      <sea-card style="max-width: 24rem">
+        <div slot="header">
+          <h3 class="sl-dialog-title">Create project</h3>
+          <p class="sl-dialog-description">Deploy your new project in one click.</p>
+        </div>
+        <sea-input label="Name"></sea-input>
+        <sea-button slot="footer" variant="outline">Cancel</sea-button>
+        <sea-button slot="footer">Deploy</sea-button>
+      </sea-card>
+    </section>
+
+    <section>
+      <h2>Tabs</h2>
+      <sea-tabs>
+        <button slot="tab">Account</button>
+        <div slot="panel">Make changes to your account here.</div>
+        <button slot="tab">Password</button>
+        <div slot="panel">Change your password here.</div>
+        <button slot="tab">Billing</button>
+        <div slot="panel">Manage your subscription.</div>
+      </sea-tabs>
+    </section>
+
+    <section>
+      <h2>Accordion</h2>
+      <sea-accordion>
+        <h3 slot="invoker"><button class="sl-accordion-trigger">Is it accessible?</button></h3>
+        <div slot="content">Yes. It follows the WAI-ARIA authoring practices, courtesy of lion.</div>
+        <h3 slot="invoker"><button class="sl-accordion-trigger">Is it styled?</button></h3>
+        <div slot="content">Yes. It ships with the Shadcn UI look out of the box.</div>
+      </sea-accordion>
+    </section>
+
+    <section>
+      <h2>Overlays</h2>
+      <div class="row">
+        <sea-dialog>
+          <sea-button slot="invoker">Open dialog</sea-button>
+          <sea-dialog-content slot="content">
+            <div slot="header">
+              <h2 class="sl-dialog-title">Edit profile</h2>
+              <p class="sl-dialog-description">
+                Make changes to your profile here. Click save when you're done.
+              </p>
+            </div>
+            <sea-input label="Name"></sea-input>
+            <sea-button slot="footer">Save changes</sea-button>
+          </sea-dialog-content>
+        </sea-dialog>
+
+        <sea-tooltip>
+          <sea-button slot="invoker" variant="outline">Hover me</sea-button>
+          <sea-tooltip-content slot="content">Add to library</sea-tooltip-content>
+        </sea-tooltip>
+
+        <sea-separator orientation="vertical" style="height: 2rem"></sea-separator>
+
+        <sea-collapsible>
+          <sea-button slot="invoker" variant="ghost" size="sm">Toggle details</sea-button>
+          <div slot="content">@sea-lion/collapsible is powered by LionCollapsible.</div>
+        </sea-collapsible>
+      </div>
+    </section>
+
+    <script type="module">
+      const root = document.documentElement;
+      const themeToggle = document.getElementById('theme-toggle');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+      // `theme-system` is only the initial default: once the user toggles, an explicit
+      // `light`/`dark` class takes over (and wins over the system preference).
+      const isDark = () =>
+        root.classList.contains('dark') ||
+        (!root.classList.contains('light') && systemPrefersDark.matches);
+
+      const syncLabel = () => {
+        themeToggle.textContent = isDark() ? 'Switch to light mode' : 'Switch to dark mode';
+      };
+
+      themeToggle.addEventListener('click', () => {
+        const nextIsDark = !isDark();
+        root.classList.toggle('dark', nextIsDark);
+        root.classList.toggle('light', !nextIsDark);
+        syncLabel();
+      });
+
+      // Keep the label in sync while still following the OS preference.
+      systemPrefersDark.addEventListener('change', syncLabel);
+      syncLabel();
+
+      // The toggle only has a visible effect once tokens.css is loaded, so fail loudly instead of
+      // silently doing nothing when it is missing or served stale.
+      if (!getComputedStyle(root).getPropertyValue('--sl-background').trim()) {
+        console.error(
+          '[sea-lion demo] src/tokens/tokens.css did not load, so switching the theme will have ' +
+            'no visible effect. Serve the repository root (npm start) and hard-reload the page.',
+        );
+      }
+
+      // `choiceValue` is a property, so it is assigned here instead of in the markup
+      document.querySelectorAll('[data-choice-value]').forEach(el => {
+        el.choiceValue = el.dataset.choiceValue;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+{
+  "name": "sea-lion",
+  "version": "0.1.0",
+  "description": "Shadcn-inspired web components built on top of @lion/ui and Lit",
+  "scripts": {
+    "start": "web-dev-server --node-resolve --open demo/ --watch",
+    "analyze": "cem analyze --globs \"src/components/**/Sea*.js\"",
+    "storybook": "npm run analyze && storybook dev -p 6006",
+    "build-storybook": "npm run analyze && storybook build",
+    "test": "web-test-runner \"test/**/*.test.js\" --node-resolve",
+    "test:watch": "web-test-runner \"test/**/*.test.js\" --node-resolve --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://localhost:26831/imyesobo/sea-lion"
+  },
+  "keywords": [
+    "web-components",
+    "lit",
+    "lion",
+    "shadcn",
+    "design-system",
+    "custom-elements"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@lion/ui": "^0.21.1",
+    "@open-wc/dedupe-mixin": "^2.0.1",
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@open-wc/testing": "^5.0.0",
+    "@storybook/addon-docs": "^10.6.1",
+    "@storybook/web-components-vite": "^10.6.1",
+    "@web/dev-server": "^1.0.0",
+    "@web/test-runner": "^1.0.0",
+    "storybook": "^10.6.1",
+    "vite": "^8.3.2"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./define.js": "./define.js",
+    "./tokens.css": "./src/tokens/tokens.css",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "define.js",
+    "src",
+    "!src/**/*.stories.js"
+  ],
+  "sideEffects": [
+    "./define.js",
+    "./src/components/**/sea-*.js"
+  ],
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  },
+  "customElements": "custom-elements.json"
+}
