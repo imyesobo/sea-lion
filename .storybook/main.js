@@ -1,3 +1,5 @@
+import { mocksPlugin } from "./mocks-plugin.js";
+
 /** @type {import('@storybook/web-components-vite').StorybookConfig} */
 export default {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.js"],
@@ -13,6 +15,7 @@ export default {
   // story navigation fast instead of resolving hundreds of deep imports on every reload.
   viteFinal: (config) => ({
     ...config,
+    plugins: [...(config.plugins ?? []), mocksPlugin()],
     optimizeDeps: {
       ...config.optimizeDeps,
       include: [

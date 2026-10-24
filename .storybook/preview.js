@@ -1,4 +1,5 @@
 import { setCustomElementsManifest } from "@storybook/web-components-vite";
+import { registerMockRoutes } from "@web/mocks/browser.js";
 import manifest from "../custom-elements.json";
 import "../define.js";
 import "../src/tokens/tokens.css";
@@ -38,6 +39,14 @@ const applyTheme = (theme) => {
 
 /** @type {import('@storybook/web-components-vite').Preview} */
 const preview = {
+  loaders: [
+    ({ parameters }) => {
+      // Calling this even without mocks clears handlers from the previous story.
+      registerMockRoutes(parameters.mocks ?? []);
+      return {};
+    },
+  ],
+
   globalTypes: {
     theme: {
       description: "sea-lion colour theme",
