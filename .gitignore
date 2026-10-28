@@ -5,3 +5,4 @@ dist/
 *.log
 custom-elements.json
 storybook-static/
+.interactions/
