@@ -1,8 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { registerMockRoutes, worker } from '@web/mocks/browser.js';
+import { recordInteractions } from 'web-mocks-recorder/wtr.js';
 import { http } from '@web/mocks/http.js';
 import mocks from '../demo/mocks.js';
 import '../src/components/button/sea-button.js';
+
+recordInteractions(worker);
 
 describe('@web/mocks', () => {
   beforeEach(() => {

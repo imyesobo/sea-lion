@@ -3,7 +3,8 @@ import { mocksPlugin } from "./mocks-plugin.js";
 /** @type {import('@storybook/web-components-vite').StorybookConfig} */
 export default {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.js"],
-  addons: ["@storybook/addon-docs"],
+  // Records the mocks used by the stories to .interactions/storybook/ (set WEB_MOCKS_RECORDER=0 to skip).
+  addons: ["@storybook/addon-docs", "web-mocks-recorder/storybook"],
   framework: {
     name: "@storybook/web-components-vite",
     options: {},
