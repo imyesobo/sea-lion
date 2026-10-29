@@ -1,4 +1,4 @@
-import { setCustomElementsManifest } from "@storybook/web-components-vite";
+import { setCustomElementsManifest } from "@web/storybook-framework-web-components";
 import manifest from "../custom-elements.json";
 import "../define.js";
 import "../src/tokens/tokens.css";
@@ -36,7 +36,7 @@ const applyTheme = (theme) => {
   document.body.classList.add("sl-base");
 };
 
-/** @type {import('@storybook/web-components-vite').Preview} */
+/** @type {import('@web/storybook-framework-web-components').Preview} */
 const preview = {
   globalTypes: {
     theme: {

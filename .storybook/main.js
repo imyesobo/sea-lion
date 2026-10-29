@@ -1,25 +1,55 @@
-/** @type {import('@storybook/web-components-vite').StorybookConfig} */
+import json from "@rollup/plugin-json";
+import { fromRollup } from "@web/dev-server-rollup";
+
+/**
+ * Turns `import './x.css'` into a module that injects a <style> tag, mirroring what Vite did for
+ * the preview. Only project CSS is handled so Storybook's own assets are untouched.
+ *
+ * @returns {import('rollup').Plugin}
+ */
+const cssInject = () => ({
+  name: "sea-lion-css-inject",
+  transform(code, id) {
+    if (!id.endsWith(".css") || id.includes("node_modules")) return null;
+    return {
+      code: `const style = document.createElement("style");
+style.textContent = ${JSON.stringify(code)};
+document.head.append(style);
+export default style;`,
+      map: null,
+    };
+  },
+});
+
+// Project CSS/JSON imported from JS must be served as JavaScript modules by the dev server.
+const jsMimeTypes = {
+  "**/src/**/*.css": "js",
+  "**/.storybook/**/*.css": "js",
+  "**/custom-elements.json": "js",
+};
+
+/** @type {import('@web/storybook-framework-web-components').StorybookConfig} */
 export default {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.js"],
   addons: ["@storybook/addon-docs"],
   framework: {
-    name: "@storybook/web-components-vite",
+    name: "@web/storybook-framework-web-components",
     options: {},
   },
   core: {
     disableTelemetry: true,
   },
-  // sea-lion ships plain ESM with bare `lit` and `@lion/ui` specifiers. Pre-bundling them keeps
-  // story navigation fast instead of resolving hundreds of deep imports on every reload.
-  viteFinal: (config) => ({
+  wdsFinal: (config) => ({
     ...config,
-    optimizeDeps: {
-      ...config.optimizeDeps,
-      include: [
-        ...(config.optimizeDeps?.include ?? []),
-        "lit",
-        "lit/directives/class-map.js",
-      ],
-    },
+    mimeTypes: { ...config.mimeTypes, ...jsMimeTypes },
+    plugins: [
+      ...(config.plugins ?? []),
+      fromRollup(json)({ include: "**/custom-elements.json" }),
+      fromRollup(cssInject)(),
+    ],
+  }),
+  rollupFinal: (config) => ({
+    ...config,
+    plugins: [...(config.plugins ?? []), json(), cssInject()],
   }),
 };
