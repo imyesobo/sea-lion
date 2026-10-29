@@ -187,6 +187,42 @@ npm run build-storybook  # static build in storybook-static/
 Both scripts regenerate `custom-elements.json` first (`npm run analyze`), so the attribute, slot and
 event tables are derived from the source JSDoc and cannot drift from the implementation.
 
+### Mocking network requests
+
+Stories that talk to a backend never need one: `@web/mocks` (MSW under the hood) intercepts `fetch`
+in the browser, `@web/storybook-addon-mocks` connects it to Storybook, and `web-mocks-recorder`
+turns the recorded interactions into an OpenAPI spec.
+
+Scenarios are plain `@web/mocks` handlers, kept in one place in `demo/mocks.js`:
+
+```js
+// demo/mocks.js
+import { http } from "@web/mocks/http.js";
+
+export default {
+  success: [http.get("/api/greeting", () => Response.json({ message: "Hello from @web/mocks!" }))],
+  error: [http.get("/api/greeting", () => Response.json({}, { status: 503 }))],
+};
+```
+
+```js
+// src/components/button/button.stories.js
+import mocks from "../../../demo/mocks.js";
+
+export const MockedRequest = {
+  parameters: { mocks: mocks.success }, // any @web/mocks handler works here
+  render: () => html`…click to fetch("/api/greeting")…`,
+};
+```
+
+The `Mocks` panel in Storybook lists the handlers of the current story and lets you edit them live.
+
+Recording is part of the dev server (`.storybook/main.js` → `web-mocks-recorder/storybook`), so
+browsing the mocked stories writes `.interactions/storybook/<stories file>.<api>.openapi.json` — add
+`har: true` to the addon options for the raw HAR as well, or `enabled: false` / `WEB_MOCKS_RECORDER=0`
+to switch it off. `@web/storybook-addon-mocks` serves the MSW service worker at `/__msw_sw__.js` in
+dev and copies it into `storybook-static/` on build, so mocks also work in the static build.
+
 ### Events at a glance
 
 | Element                                                                                        | Events                                                                                                                   | Read state from       |

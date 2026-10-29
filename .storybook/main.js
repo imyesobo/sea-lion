@@ -31,7 +31,16 @@ const jsMimeTypes = {
 /** @type {import('@web/storybook-framework-web-components').StorybookConfig} */
 export default {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.js"],
-  addons: ["@storybook/addon-docs"],
+  // `@web/storybook-addon-mocks` serves the service worker and applies `parameters.mocks`; the
+  // recorder preset adds a dev-server middleware that writes them to `.interactions/`.
+  addons: [
+    "@storybook/addon-docs",
+    "@web/storybook-addon-mocks",
+    {
+      name: "web-mocks-recorder/storybook",
+      options: { outputDir: ".interactions", pathSegments: 1 },
+    },
+  ],
   framework: {
     name: "@web/storybook-framework-web-components",
     options: {},

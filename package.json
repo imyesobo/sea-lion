@@ -38,10 +38,13 @@
     "@storybook/web-components": "^9.1.20",
     "@web/dev-server": "^1.0.0",
     "@web/dev-server-rollup": "^1.0.0",
+    "@web/mocks": "^3.0.0",
+    "@web/storybook-addon-mocks": "^2.0.0",
     "@web/storybook-builder": "^1.0.0",
     "@web/storybook-framework-web-components": "^1.0.0",
     "@web/test-runner": "^1.0.0",
-    "storybook": "^9.1.20"
+    "storybook": "^9.1.20",
+    "web-mocks-recorder": "^1.2.0"
   },
   "exports": {
     ".": "./index.js",

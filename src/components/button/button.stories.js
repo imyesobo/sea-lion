@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { withEventLog } from "../../../.storybook/story-helpers.js";
+import mocks from "../../../demo/mocks.js";
 
 /**
  * `<sea-button>` is `LionButton` — which gives a real, form-participating, keyboard accessible
@@ -188,4 +189,65 @@ export const HandlingClicks = {
       events: ["click"],
       readState: (button) => ({ label: button.textContent.trim() }),
     }),
+};
+
+/** Fetch `/api/greeting` and print whatever comes back. */
+const renderGreeting = () => html`
+  <div>
+    <sea-button
+      @click=${async (event) => {
+        const button = event.currentTarget;
+        const output = button.parentElement.querySelector('[role="status"]');
+        button.disabled = true;
+        output.textContent = "Loading...";
+        try {
+          const response = await fetch("/api/greeting");
+          if (!response.ok) {
+            throw new Error(`Request failed (${response.status})`);
+          }
+          const data = await response.json();
+          output.textContent = data.message;
+        } catch (error) {
+          output.textContent = error.message;
+        } finally {
+          button.disabled = false;
+        }
+      }}
+      >Load greeting</sea-button
+    >
+    <p role="status"></p>
+  </div>
+`;
+
+export const MockedRequest = {
+  name: "Mocked request",
+  parameters: {
+    mocks: mocks.success,
+    docs: {
+      description: {
+        story:
+          "Click to fetch `/api/greeting`. The response is intercepted by `@web/mocks`, so no " +
+          "backend is needed — any story can declare `parameters.mocks`.",
+      },
+    },
+  },
+  render: renderGreeting,
+};
+
+export const MockedRequestError = {
+  ...MockedRequest,
+  name: "Mocked request error",
+  parameters: {
+    ...MockedRequest.parameters,
+    mocks: mocks.error,
+    docs: {
+      description: {
+        story:
+          "The same request against a mocked HTTP 503. `web-mocks-recorder` records both responses " +
+          "to `.interactions/storybook/` as an OpenAPI spec. (In the Docs view every story shares one " +
+          "page, so the handler registered last wins for a path that two stories mock — open either " +
+          "story in the canvas to see its own scenario.)",
+      },
+    },
+  },
 };
