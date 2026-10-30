@@ -50,6 +50,7 @@
   "exports": {
     ".": "./index.js",
     "./define.js": "./define.js",
+    "./custom-elements.json": "./custom-elements.json",
     "./tokens.css": "./src/tokens/tokens.css",
     "./src/*": "./src/*",
     "./package.json": "./package.json"
