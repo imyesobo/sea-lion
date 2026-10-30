@@ -1,8 +1,22 @@
 import { chromeLauncher } from '@web/test-runner';
+import { mockPlugin } from '@web/mocks/plugins.js';
+import { recorderPlugin } from 'web-mocks-recorder/plugin.js';
 
 export default {
   files: 'test/**/*.test.js',
   nodeResolve: true,
+  plugins: [
+    // serves the MSW service worker (@web/mocks) used by test/mocks.test.js
+    mockPlugin(),
+    // turns the mocked requests of that test into .interactions/wtr/<test file>.<api>.openapi.json.
+    // The upstream plugin is opt-in for WTR (WEB_MOCKS_RECORDER=1) but on-by-default for Storybook,
+    // so `enabled` is set here to give both the same semantics: on unless WEB_MOCKS_RECORDER=0.
+    recorderPlugin({
+      outputDir: '.interactions',
+      pathSegments: 2,
+      enabled: !['0', 'false'].includes(process.env.WEB_MOCKS_RECORDER ?? ''),
+    }),
+  ],
   browsers: [
     chromeLauncher({
       launchOptions: {

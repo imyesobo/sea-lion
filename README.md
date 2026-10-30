@@ -223,6 +223,14 @@ browsing the mocked stories writes `.interactions/storybook/<stories file>.<api>
 to switch it off. `@web/storybook-addon-mocks` serves the MSW service worker at `/__msw_sw__.js` in
 dev and copies it into `storybook-static/` on build, so mocks also work in the static build.
 
+The same scenarios drive the browser tests. `test/mocks.test.js` registers them with
+`registerMockRoutes`, and `web-test-runner.config.mjs` registers `mockPlugin()` (which serves the MSW
+service worker) next to `recorderPlugin()` from `web-mocks-recorder/plugin.js`; the one line
+`recordInteractions(worker)` at the top of the test file feeds that plugin. Upstream the WTR recorder
+is opt-in (`WEB_MOCKS_RECORDER=1`) while the Storybook one is on by default; the config passes
+`enabled` explicitly so both behave the same way — `npm test` writes
+`.interactions/wtr/<test file>.<api>.openapi.json` unless you set `WEB_MOCKS_RECORDER=0`.
+
 ### Events at a glance
 
 | Element                                                                                        | Events                                                                                                                   | Read state from       |
@@ -247,7 +255,8 @@ do bubble, so a form can listen once at the top. `before-opened` and `before-clo
 npm install
 npm start           # dev server with the demo page at demo/index.html
 npm run storybook   # component documentation
-npm test            # web-test-runner (headless Chrome)
+npm test            # web-test-runner (headless Chrome), records to .interactions/wtr/
+WEB_MOCKS_RECORDER=0 npm test   # same tests, without the recording
 ```
 
 ## Credits
