@@ -214,6 +214,60 @@ npm run storybook   # component documentation
 npm test            # web-test-runner (headless Chrome)
 ```
 
+### Mocking network requests
+
+[`@web/mocks`](https://www.npmjs.com/package/@web/mocks) is available in every component
+story and Web Test Runner test. Define reusable scenarios with `http` from
+`@web/mocks/http.js` (see `demo/mocks.js`); handlers return native `Response` objects.
+
+In any `*.stories.js`, set `parameters.mocks` on a story or its default export:
+
+```js
+import { html } from "lit";
+import { http } from "@web/mocks/http.js";
+import mocks from "../../../demo/mocks.js"; // adjust for the story's location
+
+export const WithApi = {
+  parameters: {
+    mocks: [
+      mocks.success,
+      http.get("/api/users/:id", ({ params }) =>
+        Response.json({ id: params.id, name: "Sam" }),
+      ),
+    ],
+  },
+  render: () => html`<my-component></my-component>`,
+};
+```
+
+The global preview loader registers the selected story's routes before rendering and clears
+previous handlers, including when navigating to a story without mocks. Each registration replaces
+the entire route set; combine shared scenarios and extra routes in one array. Mocks share the
+preview's service worker, so stories displayed together in Docs should use compatible routes.
+See **Components / Button / Mocked Request** and **Mocked Request Error** for live examples.
+
+In tests, register routes before making requests and clear them after each test:
+
+```js
+import { registerMockRoutes } from "@web/mocks/browser.js";
+import mocks from "../demo/mocks.js";
+
+describe("my-component", () => {
+  beforeEach(() => registerMockRoutes(mocks.success));
+  afterEach(() => registerMockRoutes());
+
+  it("loads a greeting", async () => {
+    const response = await fetch("/api/greeting");
+    // Assert the response or render a component that requests this endpoint.
+  });
+});
+```
+
+`test/mocks.test.js` contains executable examples. Web Test Runner uses `mockPlugin()`; Storybook's
+Vite adapter serves the same package-provided service worker in development and emits it into
+static builds. No generated worker needs to be checked in or manually updated. Service workers
+require localhost or HTTPS. Unmatched requests pass through to the real server.
+
 ## Credits
 
 - [ing-bank/lion](https://github.com/ing-bank/lion) — behaviour, accessibility and APIs (MIT)

@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { withEventLog } from "../../../.storybook/story-helpers.js";
+import mocks from "../../../demo/mocks.js";
 
 /**
  * `<sea-button>` is `LionButton` — which gives a real, form-participating, keyboard accessible
@@ -188,4 +189,55 @@ export const HandlingClicks = {
       events: ["click"],
       readState: (button) => ({ label: button.textContent.trim() }),
     }),
+};
+
+export const MockedRequest = {
+  parameters: {
+    mocks: mocks.success,
+    docs: {
+      description: {
+        story:
+          "Click to fetch /api/greeting. The response is intercepted by @web/mocks; " +
+          "no backend is needed. Any story can declare parameters.mocks.",
+      },
+    },
+  },
+  render: () => html`
+    <div>
+      <sea-button
+        @click=${async (event) => {
+          const button = event.currentTarget;
+          const output = button.parentElement.querySelector('[role="status"]');
+          button.disabled = true;
+          output.textContent = "Loading...";
+          try {
+            const response = await fetch("/api/greeting");
+            if (!response.ok) {
+              throw new Error(`Request failed (${response.status})`);
+            }
+            const data = await response.json();
+            output.textContent = data.message;
+          } catch (error) {
+            output.textContent = error.message;
+          } finally {
+            button.disabled = false;
+          }
+        }}
+        >Load greeting</sea-button
+      >
+      <p role="status"></p>
+    </div>
+  `,
+};
+
+export const MockedRequestError = {
+  ...MockedRequest,
+  parameters: {
+    mocks: mocks.error,
+    docs: {
+      description: {
+        story: "The same request with a mocked HTTP 503 response.",
+      },
+    },
+  },
 };

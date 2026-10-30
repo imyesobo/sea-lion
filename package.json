@@ -36,9 +36,11 @@
     "@storybook/addon-docs": "^10.6.1",
     "@storybook/web-components-vite": "^10.6.1",
     "@web/dev-server": "^1.0.0",
+    "@web/mocks": "^3.0.0",
     "@web/test-runner": "^1.0.0",
     "storybook": "^10.6.1",
-    "vite": "^8.3.2"
+    "vite": "^8.3.2",
+    "web-mocks-recorder": "^1.2.0"
   },
   "exports": {
     ".": "./index.js",
