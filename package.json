@@ -1,6 +1,6 @@
 {
   "name": "@yesobo/sea-lion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shadcn-inspired web components built on top of @lion/ui and Lit",
   "scripts": {
     "start": "web-dev-server --node-resolve --open demo/ --watch",
@@ -50,6 +50,7 @@
   "exports": {
     ".": "./index.js",
     "./define.js": "./define.js",
+    "./custom-elements.json": "./custom-elements.json",
     "./tokens.css": "./src/tokens/tokens.css",
     "./src/*": "./src/*",
     "./package.json": "./package.json"

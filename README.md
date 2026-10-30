@@ -50,6 +50,15 @@ The global theme sheet is optional: every component carries the light theme as b
 values. Load `@yesobo/sea-lion/tokens.css` to enable page-level theming, dark mode and the light DOM
 helper classes.
 
+The custom elements manifest is published too, so tooling can read it without unpacking the package:
+
+```js
+import manifest from "@yesobo/sea-lion/custom-elements.json" with { type: "json" };
+```
+
+Node needs the `with { type: "json" }` attribute (`assert { type: "json" }` on Node 20); `require()` and
+bundler imports need nothing extra.
+
 ## Components
 
 | Element                                                                      | lion base               | Notes                                                                                                           |
