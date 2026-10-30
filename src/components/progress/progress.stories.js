@@ -28,7 +28,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/progress/sea-progress.js';",
+          "import '@yesobo/sea-lion/src/components/progress/sea-progress.js';",
           "```",
           "",
           "```html",

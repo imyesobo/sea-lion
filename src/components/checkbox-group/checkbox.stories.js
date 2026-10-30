@@ -34,8 +34,8 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/checkbox-group/sea-checkbox.js';",
-          "import 'sea-lion/src/components/checkbox-group/sea-checkbox-group.js';",
+          "import '@yesobo/sea-lion/src/components/checkbox-group/sea-checkbox.js';",
+          "import '@yesobo/sea-lion/src/components/checkbox-group/sea-checkbox-group.js';",
           "```",
           "",
           "### `choiceValue` is a property, not an attribute",

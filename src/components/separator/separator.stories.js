@@ -19,7 +19,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/separator/sea-separator.js';",
+          "import '@yesobo/sea-lion/src/components/separator/sea-separator.js';",
           "```",
           "",
           "```html",

@@ -1,6 +1,6 @@
 {
-  "name": "sea-lion",
-  "version": "0.1.0",
+  "name": "@yesobo/sea-lion",
+  "version": "1.0.0",
   "description": "Shadcn-inspired web components built on top of @lion/ui and Lit",
   "scripts": {
     "start": "web-dev-server --node-resolve --open demo/ --watch",
@@ -8,11 +8,16 @@
     "storybook": "npm run analyze && storybook dev -p 6006",
     "build-storybook": "npm run analyze && storybook build",
     "test": "web-test-runner \"test/**/*.test.js\" --node-resolve",
-    "test:watch": "web-test-runner \"test/**/*.test.js\" --node-resolve --watch"
+    "test:watch": "web-test-runner \"test/**/*.test.js\" --node-resolve --watch",
+    "prepublishOnly": "npm run analyze && npm test"
   },
   "repository": {
     "type": "git",
-    "url": "http://localhost:26831/imyesobo/sea-lion"
+    "url": "git+https://github.com/imyesobo/sea-lion.git"
+  },
+  "homepage": "https://github.com/imyesobo/sea-lion#readme",
+  "bugs": {
+    "url": "https://github.com/imyesobo/sea-lion/issues"
   },
   "keywords": [
     "web-components",
@@ -22,7 +27,7 @@
     "design-system",
     "custom-elements"
   ],
-  "author": "",
+  "author": "Jesus Espejo Arnas",
   "license": "MIT",
   "type": "module",
   "dependencies": {
@@ -53,8 +58,12 @@
     "index.js",
     "define.js",
     "src",
+    "custom-elements.json",
     "!src/**/*.stories.js"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": [
     "./define.js",
     "./src/components/**/sea-*.js"

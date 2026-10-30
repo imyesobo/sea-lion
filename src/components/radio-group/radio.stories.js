@@ -28,8 +28,8 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/radio-group/sea-radio.js';",
-          "import 'sea-lion/src/components/radio-group/sea-radio-group.js';",
+          "import '@yesobo/sea-lion/src/components/radio-group/sea-radio.js';",
+          "import '@yesobo/sea-lion/src/components/radio-group/sea-radio-group.js';",
           "```",
           "",
           "```html",

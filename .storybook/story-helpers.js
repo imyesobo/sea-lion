@@ -59,7 +59,7 @@ export function withEventLog(template, { selector, events, readState }) {
 export function importSnippet(tags) {
   return tags
     .map(
-      (tag) => `import 'sea-lion/src/components/${folderFor(tag)}/${tag}.js';`,
+      (tag) => `import '@yesobo/sea-lion/src/components/${folderFor(tag)}/${tag}.js';`,
     )
     .join("\n");
 }

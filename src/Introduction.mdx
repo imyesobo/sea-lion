@@ -14,7 +14,7 @@ as real custom elements you can use from any framework, or none.
 ## Installation
 
 ```bash
-npm install sea-lion
+npm install @yesobo/sea-lion
 ```
 
 ## Usage
@@ -23,11 +23,11 @@ Register the elements you need, then use them as plain HTML.
 
 ```js
 // everything
-import "sea-lion/define.js";
+import "@yesobo/sea-lion/define.js";
 
 // or just what you use, which tree-shakes better
-import "sea-lion/src/components/button/sea-button.js";
-import "sea-lion/src/components/input/sea-input.js";
+import "@yesobo/sea-lion/src/components/button/sea-button.js";
+import "@yesobo/sea-lion/src/components/input/sea-input.js";
 ```
 
 ```html
@@ -39,7 +39,7 @@ Load the token stylesheet once, at the root of your app, to get the dark theme a
 styles:
 
 ```js
-import "sea-lion/tokens.css";
+import "@yesobo/sea-lion/tokens.css";
 ```
 
 Components ship with the light theme compiled in as fallback values, so they still look right if you
@@ -77,7 +77,7 @@ Every component is a normal Lit class, so the escape hatch is ordinary subclassi
 
 ```js
 import { css } from "lit";
-import { SeaButton } from "sea-lion";
+import { SeaButton } from "@yesobo/sea-lion";
 
 class AcmeButton extends SeaButton {
   static get styles() {

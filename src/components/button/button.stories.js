@@ -58,7 +58,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/button/sea-button.js';",
+          "import '@yesobo/sea-lion/src/components/button/sea-button.js';",
           "```",
           "",
           "```html",

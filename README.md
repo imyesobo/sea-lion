@@ -12,9 +12,9 @@ Everything hard (focus traps, roving tabindex, ARIA wiring, form model/validatio
 positioning, i18n) stays in lion. sea-lion only adds design tokens, a variant API and CSS.
 
 ```html
-<link rel="stylesheet" href="node_modules/sea-lion/src/tokens/tokens.css" />
+<link rel="stylesheet" href="node_modules/@yesobo/sea-lion/src/tokens/tokens.css" />
 <script type="module">
-  import "sea-lion/define.js";
+  import "@yesobo/sea-lion/define.js";
 </script>
 
 <sea-button variant="destructive">Delete account</sea-button>
@@ -25,7 +25,7 @@ positioning, i18n) stays in lion. sea-lion only adds design tokens, a variant AP
 ## Install
 
 ```bash
-npm install sea-lion
+npm install @yesobo/sea-lion
 ```
 
 `lit` is a peer dependency; `@lion/ui` is a regular dependency.
@@ -36,18 +36,18 @@ Three import styles, pick what fits:
 
 ```js
 // 1. everything, registered as <sea-*> elements
-import "sea-lion/define.js";
+import "@yesobo/sea-lion/define.js";
 
 // 2. a single component (best for tree shaking)
-import "sea-lion/src/components/button/sea-button.js";
+import "@yesobo/sea-lion/src/components/button/sea-button.js";
 
 // 3. classes only — register under your own tag names, or extend them further
-import { SeaButton } from "sea-lion";
+import { SeaButton } from "@yesobo/sea-lion";
 customElements.define("acme-button", class extends SeaButton {});
 ```
 
 The global theme sheet is optional: every component carries the light theme as built-in fallback
-values. Load `sea-lion/tokens.css` to enable page-level theming, dark mode and the light DOM
+values. Load `@yesobo/sea-lion/tokens.css` to enable page-level theming, dark mode and the light DOM
 helper classes.
 
 ## Components
@@ -122,7 +122,7 @@ variants as attributes, so all styling stays in CSS and stays overridable:
 `VariantMixin` declares the allowed values and falls back to the default for unknown ones:
 
 ```js
-import { VariantMixin } from "sea-lion";
+import { VariantMixin } from "@yesobo/sea-lion";
 
 class AcmeChip extends VariantMixin(LitElement) {
   static variantConfig = {
@@ -138,7 +138,7 @@ The same way sea-lion extends lion, you extend sea-lion. Import the class, add s
 
 ```js
 import { css } from "lit";
-import { SeaButton, t } from "sea-lion";
+import { SeaButton, t } from "@yesobo/sea-lion";
 
 export class AcmeButton extends SeaButton {
   static get styles() {
@@ -275,4 +275,7 @@ require localhost or HTTPS. Unmatched requests pass through to the real server.
 
 ## License
 
-MIT
+MIT © [Jesus Espejo Arnas](https://github.com/imyesobo) — see [LICENSE](LICENSE).
+
+This library is built on top of [ing-bank/lion](https://github.com/ing-bank/lion) (MIT); the
+Shadcn design language it reproduces is also MIT.

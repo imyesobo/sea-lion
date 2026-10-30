@@ -14,7 +14,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/dialog/sea-dialog.js';",
+          "import '@yesobo/sea-lion/src/components/dialog/sea-dialog.js';",
           "```",
           "",
           "```html",

@@ -24,7 +24,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/select/sea-select.js';",
+          "import '@yesobo/sea-lion/src/components/select/sea-select.js';",
           "```",
           "",
           "The native `<select>` goes in the `input` slot — this is lion's light DOM contract, so",

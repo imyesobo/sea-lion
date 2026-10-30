@@ -17,7 +17,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/label/sea-label.js';",
+          "import '@yesobo/sea-lion/src/components/label/sea-label.js';",
           "```",
           "",
           "```html",

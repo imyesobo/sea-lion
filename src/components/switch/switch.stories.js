@@ -20,7 +20,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/switch/sea-switch.js';",
+          "import '@yesobo/sea-lion/src/components/switch/sea-switch.js';",
           "```",
           "",
           "```html",

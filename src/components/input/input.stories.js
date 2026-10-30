@@ -46,7 +46,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/input/sea-input.js';",
+          "import '@yesobo/sea-lion/src/components/input/sea-input.js';",
           "```",
           "",
           "```html",

@@ -22,7 +22,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/tabs/sea-tabs.js';",
+          "import '@yesobo/sea-lion/src/components/tabs/sea-tabs.js';",
           "```",
           "",
           'Tabs and panels are **alternating light DOM children** — the first `slot="tab"` pairs with',

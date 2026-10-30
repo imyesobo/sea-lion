@@ -44,7 +44,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/textarea/sea-textarea.js';",
+          "import '@yesobo/sea-lion/src/components/textarea/sea-textarea.js';",
           "```",
           "",
           "```html",

@@ -14,7 +14,7 @@ export default {
       description: {
         component: [
           "```js",
-          "import 'sea-lion/src/components/accordion/sea-accordion.js';",
+          "import '@yesobo/sea-lion/src/components/accordion/sea-accordion.js';",
           "```",
           "",
           'Each item is a heading containing a button (`slot="invoker"`) followed by its panel',
